@@ -21,9 +21,6 @@ Then, the ids of the updated tests are saved into a file (../updatedTests.tmp), 
  #### Testing the tool and feedback
  
  This tool was developed as a solo side project. Therefore, it's testing has been limited.
- 
- Feel free to report any issues you found to Adidas SUPPORT_TESTING or COMMUNITY_TESTING channels in Microsoft Teams.
- 
  ***
  
  Developed by Mario Torbado
