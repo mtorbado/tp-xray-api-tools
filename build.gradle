@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
+    compile 'net.serenity-bdd:serenity-rest-assured:1.9.45'
+    compile 'net.serenity-bdd:serenity-core:1.9.45'
+    compile group: 'org.json', name: 'json', version: '20200518'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+task xrayUpdateChecker (type: JavaExec){
+
+    systemProperty 'jiraToken', System.properties['jiraToken'] // For jira API request authorization
+    systemProperty 'uploadTimestamp', System.properties['uploadTimestamp'] // Timestamp from Xray import request execution in the jenkinsfile
+    systemProperty 'updateLapse', System.properties['updateLapse'] // Period of time (ms) after de xray import request to check for the last updated tests (*)
+
+    // (*) Jira scenarios has been observed to delay some seconds when updating from the Xray import request,
+    // therefore the need of this "update lapse" to consider which updated scenarios are part of the last request.
+
+    dependsOn classes
+    classpath sourceSets.main.runtimeClasspath
+    main = 'XrayUpdateChecker'
+    args = ['../issuesList.tmp'] // Xray import response
+}
